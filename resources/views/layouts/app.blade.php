@@ -24,6 +24,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
           crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+        .swal2-html-container{
+            color: #fff;
+        }
+    </style>
     @stack("styles")
 </head>
 <body class="gradient-bg">
@@ -420,7 +425,7 @@
                 </div>
                 @guest()
                 <div class="header-tools__item hover-container">
-                    <a href="" class="header-tools__item">
+                    <a href="{{route('login')}}" class="header-tools__item">
                         <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <use href="#icon_user"/>
@@ -549,61 +554,8 @@
 <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <script src="{{asset('assets/js/theme.js')}}"></script>
-<script>
-    $(function () {
-        $('#search-input').on('keyup', function (){
-            var searchQuery = $(this).val().trim();
-            var searchURL = "";
-            if(searchQuery.length > 2){
-                $.ajax({
-                    type: 'GET',
-                    url: "",
-                    data: {query : searchQuery},
-                    dataType: 'json',
-                    success:function (data){
-                        var searchDiv = $('#box-content-search');
-                        searchDiv.html('');
+<script src="{{asset('assets/js/script.js')}}"></script>
 
-                        if(data.length > 0)
-                        {
-                            $.each(data, function (index, item){
-                                var url = "";
-                                var link = url.replace('product_slug_pls', item.slug);
-
-                                searchDiv.append(`
-                                   <li>
-                                       <ul>
-                                           <li class="product-item gap14 mb-10">
-                                               <div class="image no-bg">
-                                                    <a href="${link}" class="body-text">
-                                                        <img src="{{asset('uploads/products/thumbnails')}}/${item.image}" alt="${item.name}">
-                                                    </a>
-                                               </div>
-                                               <div class="flex items-center justify-between gap20 flex-grow">
-                                                   <div class="name">
-                                                      <a href="${link}" class="body-text">${item.name}</a>
-                                                   </div>
-                                               </div>
-                                           </li>
-                                           <li class="mb-10">
-                                                <div class="divider"></div>
-                                           </li>
-                                       </ul>
-                                   </li>
-                               `);
-
-                            });
-                        }
-                        else
-                        {
-                            searchDiv.append(`<span class="text-center fw-bold fs-4 text-secondary">No Results Found</span>`);
-                        }
-                    }
-                });
-            }
-        })
-    });
-</script>
 @stack("scripts")
 </body>
 
