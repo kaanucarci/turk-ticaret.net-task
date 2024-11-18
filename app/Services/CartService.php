@@ -1,5 +1,4 @@
 <?php
-// app/Services/CartService.php
 
 namespace App\Services;
 
@@ -25,9 +24,11 @@ class CartService
 
     public function getCart()
     {
-        $cart = Carts::where('user_id', Auth::user()->id)->first();
+        $cart = Carts::where('user_id', Auth::user()->id)
+                ->where('status' , 'active')
+        ->first();
 
-        if (!$cart || $cart->status == 'completed')
+        if (!$cart)
         {
             $cart = $this->createCart();
         }
@@ -61,7 +62,9 @@ class CartService
             'price' => $product->price ,
         ]);
 
-        return $this->getCart();
+        $cart->load('products');
+
+        return $cart;
     }
 
     protected function updateProductInCart(Carts $cart, $existingProduct, array $cartItems)
@@ -81,7 +84,9 @@ class CartService
             'price' => $existingProduct['price'],
         ]);
 
-        return $this->getCart();
+        $cart->load('products');
+
+        return $cart;
     }
 
     public function updateCartItem(int $productId, array $cartItems)

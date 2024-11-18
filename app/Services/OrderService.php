@@ -23,7 +23,7 @@ class OrderService
         }
 
 
-        $cart_items = CartItems::where('cart_id', $cart->id);
+        $cart_items = CartItems::where('cart_id', $cart->id)->get();
 
         foreach ($cart_items as $cart_item)
         {
@@ -67,6 +67,10 @@ class OrderService
         $order = Orders::where('id', $id)
             ->where('user_id', Auth::user()->id)
             ->first();
+
+        $cart_items = CartItems::where('cart_id', $order->cart_id)->get();
+
+        $order->order_items = $cart_items;
 
         if (!$order)
         {
