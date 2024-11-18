@@ -1,0 +1,714 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Turk Ticaret Api",
+        "description": "Turk Ticaret Api Documentation",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/api",
+            "description": "Development Server"
+        }
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register a new user",
+                "description": "Registers a new user in the system.",
+                "operationId": "ed42f392010c301892e640067141676e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "johndoe@example.com"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-11-18T12:00:00Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-11-18T12:00:00Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "email": [
+                                        "The email field is required."
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login with credentials",
+                "description": "Login a user by providing email and password and receive a JWT token.",
+                "operationId": "8cb7742ae98d0990acb2907c4e00bf24",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful and JWT token returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "your-jwt-token"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "example": 3600
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login Successful"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "error": "Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Get the authenticated user",
+                "description": "Fetch the currently authenticated user's data.",
+                "operationId": "a9c495788506b114956e3f509e5d90a2",
+                "responses": {
+                    "200": {
+                        "description": "Authenticated user data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "johndoe@example.com"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-11-18T12:00:00Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-11-18T12:00:00Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "error": "Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Log out the authenticated user",
+                "description": "Log out the authenticated user and invalidate their JWT token.",
+                "operationId": "0d29c740dc06d77602af8095bf4654cc",
+                "responses": {
+                    "200": {
+                        "description": "User successfully logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "message": "Successfully logged out"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - No valid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "error": "Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Refresh JWT token",
+                "description": "Refresh the JWT token to keep the user logged in.",
+                "operationId": "f6c9683ed975ace7d035a09e6e2a9332",
+                "responses": {
+                    "200": {
+                        "description": "Token successfully refreshed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "your-new-jwt-token"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "example": 3600
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Token refreshed successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "error": "Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get all products",
+                "operationId": "c1ff6f862214e1896c59cfe0491ce0e8",
+                "responses": {
+                    "200": {
+                        "description": "Returns all products"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create a new product",
+                "description": "Creates a new product. Only accessible by admin users.",
+                "operationId": "399770d33fa4672f1216707d0e236763",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Sample Product"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 99.99
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "This is a sample product."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product created successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - Only admins can create products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Access denied"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/{product_id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get a specific product by ID",
+                "description": "Returns product details based on the provided product ID.",
+                "operationId": "961e807344c87d10445361e18e410449",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "ID of the product to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Sample Product"
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 99.99
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "This is a sample product."
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-11-18T12:34:56Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-11-18T12:34:56Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update an existing product",
+                "description": "Updates the details of a specific product. Only admins can access this endpoint.",
+                "operationId": "838f709761f5a519b578a44fc0251b81",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "ID of the product to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Updated Product Name"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 150.75
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 20
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Updated product description"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product updated successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete a product",
+                "description": "Deletes a specific product. Only admins can access this endpoint.",
+                "operationId": "fa453ec039f39a3dc7100b2ce9570f8a",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "ID of the product to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "Products",
+            "description": "Products"
+        }
+    ]
+}
