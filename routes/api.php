@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,4 +36,10 @@ Route::get('cart', [CartController::class, 'index'])->middleware(['auth:api', 'r
 Route::post('cart/items', [CartController::class, 'store'])->middleware(['auth:api', 'role:usr']);
 Route::put('cart/items/{id}', [CartController::class, 'update'])->middleware(['auth:api', 'role:usr']);
 Route::delete('cart/items/{id}', [CartController::class, 'destroy'])->middleware(['auth:api', 'role:usr']);
+
+Route::get('orders', [OrderController::class, 'index'])->middleware(['auth:api', 'role:usr']);
+Route::post('orders', [OrderController::class, 'store'])->middleware(['auth:api', 'role:usr']);
+Route::get('orders/{id}', [OrderController::class, 'show'])->middleware(['auth:api', 'role:usr']);
+
+
 

@@ -38,8 +38,6 @@ class CartController extends Controller
     public function index()
     {
         $cart = $this->cartService->getCart();
-        $cart_items = CartItems::where('cart_id', $cart->id)->get();
-        $cart->items = $cart_items;
 
         return response()->json($cart);
     }
@@ -87,10 +85,8 @@ class CartController extends Controller
         ]);
 
         try{
-        $cart = $this->cartService->addToCart($cartItems);
-        $cart_items = CartItems::where('cart_id', $cart->id)->get();
-        $cart->items = $cart_items;
-        return response()->json(['message' => 'Product added to cart successfully!', 'cart' => $cart]);
+            $cart = $this->cartService->addToCart($cartItems);
+            return response()->json(['message' => 'Product added to cart successfully!', 'cart' => $cart]);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }
@@ -143,8 +139,6 @@ class CartController extends Controller
 
         try {
             $cart = $this->cartService->updateCartItem($product_id, $cartItems);
-            $cart_items = CartItems::where('cart_id', $cart->id)->get();
-            $cart->items = $cart_items;
             return response()->json(['message' => 'Product updated successfully!', 'cart' => $cart]);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
@@ -186,8 +180,6 @@ class CartController extends Controller
     {
         try {
             $cart = $this->cartService->removeCartItem($id);
-            $cart_items = CartItems::where('cart_id', $cart->id)->get();
-            $cart->items = $cart_items;
             return response()->json(['message' => 'Product removed from cart successfully!', 'cart' => $cart]);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);

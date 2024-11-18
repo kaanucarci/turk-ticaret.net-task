@@ -362,7 +362,9 @@
                         "bearerAuth": []
                     }
                 ]
-            },
+            }
+        },
+        "/cart/items": {
             "post": {
                 "tags": [
                     "Cart"
@@ -550,6 +552,118 @@
                     },
                     "404": {
                         "description": "Product not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/orders": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Kullanıcının siparişlerini getirir",
+                "operationId": "getOrders",
+                "responses": {
+                    "200": {
+                        "description": "Siparişler başarıyla getirildi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "order": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Orders not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Create a new order",
+                "description": "Yeni bir sipariş oluşturur. Kullanıcı giriş yapmış olmalı ve 'usr' rolüne sahip olmalıdır.",
+                "operationId": "445bab4f7dc9ea6fcd54f286c0209478",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cart_id"
+                                ],
+                                "properties": {
+                                    "cart_id": {
+                                        "description": "Cart ID",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sipariş başarıyla oluşturuldu."
+                    },
+                    "400": {
+                        "description": "Hata mesajı"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get an order by ID",
+                "description": "Belirtilen ID'ye sahip siparişi getirir. Yalnızca 'usr' rolü ile erişilebilir.",
+                "operationId": "f088d34a2737782215f435f854e31de5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Sipariş ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sipariş başarıyla getirildi."
+                    },
+                    "400": {
+                        "description": "Hata mesajı"
                     }
                 },
                 "security": [
@@ -941,6 +1055,10 @@
         {
             "name": "Cart",
             "description": "Cart"
+        },
+        {
+            "name": "Orders",
+            "description": "Orders"
         },
         {
             "name": "Products",

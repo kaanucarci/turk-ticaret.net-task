@@ -3,18 +3,13 @@
 
 namespace App\Services;
 
+use App\Models\CartItems;
 use App\Models\Carts;
 use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
 
 class CartService
 {
-    /**
-     * Sepete ürün ekler ya da var olan ürünü günceller.
-     *
-     * @param array $cartItems
-     * @return \App\Models\Carts
-     */
     public function addToCart(array $cartItems)
     {
         $cart = $this->getCart();
@@ -28,28 +23,23 @@ class CartService
         return $this->addNewProductToCart($cart, $cartItems);
     }
 
-    /**
-     * Kullanıcının mevcut sepetini alır.
-     *
-     * @return \App\Models\Carts
-     */
     public function getCart()
     {
         $cart = Carts::where('user_id', Auth::user()->id)->first();
 
-        if (!$cart)
+        if (!$cart || $cart->status == 'completed')
         {
             $cart = $this->createCart();
         }
 
+        $cart_items = CartItems::where('cart_id', $cart->id)->get();
+
+        $cart->items = $cart_items;
+        $cart->total_price = $cart_items->sum('price');
+
         return $cart;
     }
 
-    /**
-     * Kullanıcının mevcut sepetini alır.
-     *
-     * @return \App\Models\Carts
-     */
     public function getProductInfo($productId)
     {
         $product = Products::find($productId);
@@ -62,13 +52,6 @@ class CartService
         return $product;
     }
 
-    /**
-     * Sepete yeni bir ürün ekler.
-     *
-     * @param \App\Models\Carts $cart
-     * @param array $cartItems
-     * @return \App\Models\Carts
-     */
     protected function addNewProductToCart(Carts $cart, array $cartItems)
     {
         $product = $this->getProductInfo($cartItems['product_id']);
@@ -78,17 +61,9 @@ class CartService
             'price' => $product->price ,
         ]);
 
-        return $cart;
+        return $this->getCart();
     }
 
-    /**
-     * Var olan ürünü sepette günceller.
-     *
-     * @param \App\Models\Carts $cart
-     * @param \App\Models\Products $existingProduct
-     * @param array $cartItems
-     * @return \App\Models\Carts
-     */
     protected function updateProductInCart(Carts $cart, $existingProduct, array $cartItems)
     {
         $product = $this->getProductInfo($cartItems['product_id']);
@@ -106,16 +81,9 @@ class CartService
             'price' => $existingProduct['price'],
         ]);
 
-        return $cart;
+        return $this->getCart();
     }
 
-    /**
-     * Sepetteki ürünü günceller.
-     *
-     * @param int $productId
-     * @param array $cartItems
-     * @return \App\Models\Carts
-     */
     public function updateCartItem(int $productId, array $cartItems)
     {
         $cart = $this->getCart();
@@ -139,19 +107,14 @@ class CartService
                 'price' => $product->price,
             ]);
 
-            return $cart;
+            return $this->getCart();
         }
 
         throw new \Exception('Product not found in cart.');
     }
 
 
-    /**
-     * Sepetten bir ürünü siler.
-     *
-     * @param int $productId
-     * @return \App\Models\Carts
-     */
+
     public function removeCartItem(int $productId)
     {
         $cart = $this->getCart();
@@ -164,16 +127,12 @@ class CartService
 
         $cart->products()->detach($productId);
 
-        return $cart;
+        return $this->getCart();
     }
 
 
 
-    /**
-     * Eğer kullanıcıda sepet yoksa, yeni bir sepet oluşturur.
-     *
-     * @return \App\Models\Carts
-     */
+
     protected function createCart()
     {
         $cart = new Carts();
