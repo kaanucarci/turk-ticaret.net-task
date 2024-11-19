@@ -1,4 +1,4 @@
-<h1>TürkTicaret.Net tarafından Laravel ile geliştirilmesi istenen api projesi.</h1>
+<h1>TürkTicaret.Net E-Ticaret API ve Sepet Yönetimi Case Study</h1>
 
 <h2>Kurulum: </h2>
 
