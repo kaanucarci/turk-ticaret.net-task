@@ -6,4 +6,4 @@
 
 <p><h3>Veritabanı Kontrolü -</h3> Veritabanının başarılı bir şekilde bağlandığını ve tablolarımızı görüntüleyebildiğimizi kontrol edelim eğer başarılı bir şekilde bağlantı kurmuş isek 'php artisan serve' komutu ile projeyi başlatabiliriz.</p>
 
-<p><h3>Api Dökümantasyonu -</h3> http://127.0.0.1:8000/api/documentation url sini ziyaret edersek swagger ile oluşturulmuş dökümantasyonu görüntüleyebiliriz.</p>
+<p><h3>Api Dökümantasyonu -</h3> http://127.0.0.1:8000/api/documentation url sini ziyaret edersek swagger ile oluşturulmuş dökümantasyonu görüntüleyebiliriz. Ayrıca ana dizinde bulunan 'TurkTicaret.Net Collection.postman_collection.json' isimli dosyayı Postman uygulamasına import ederek projedeki bütün endpointleri oradan görüntüleyebilirsiniz.</p>
