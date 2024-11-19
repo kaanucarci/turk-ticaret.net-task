@@ -42,7 +42,7 @@ Route::get('admin/users/{user_id}/orders/', [AdminController::class, 'get_order_
 Route::delete('admin/users/{id}', [AdminController::class, 'delete_user'])->middleware(['auth:api', 'role:adm']);
 
 
-
+//Sadece usr kullanıcısının request/response loglarını almasını sağlayan middleware
 Route::middleware('log.request.response')->get('cart', [CartController::class, 'index'])->middleware(['auth:api', 'role:usr']);
 Route::middleware('log.request.response')->post('cart/items', [CartController::class, 'store'])->middleware(['auth:api', 'role:usr']);
 Route::middleware('log.request.response')->put('cart/items/{id}', [CartController::class, 'update'])->middleware(['auth:api', 'role:usr']);

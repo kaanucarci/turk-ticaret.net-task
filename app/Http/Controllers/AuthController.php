@@ -135,6 +135,7 @@ class AuthController extends Controller
      *   tags={"Authentication"},
      *   summary="Get the authenticated user",
      *   description="Fetch the currently authenticated user's data.",
+     *   security={{"bearerAuth": {}}},
      *   @OA\Response(
      *       response=200,
      *       description="Authenticated user data",
@@ -172,6 +173,7 @@ class AuthController extends Controller
      *   tags={"Authentication"},
      *   summary="Log out the authenticated user",
      *   description="Log out the authenticated user and invalidate their JWT token.",
+     *   security={{"bearerAuth": {}}},
      *   @OA\Response(
      *       response=200,
      *       description="User successfully logged out",
@@ -207,6 +209,7 @@ class AuthController extends Controller
      *   tags={"Authentication"},
      *   summary="Refresh JWT token",
      *   description="Refresh the JWT token to keep the user logged in.",
+     *   security={{"bearerAuth": {}}},
      *   @OA\Response(
      *       response=200,
      *       description="Token successfully refreshed",
